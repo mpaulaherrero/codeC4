@@ -1,0 +1,20 @@
+{
+  "name": "gamec4",
+  "version": "1.0.0",
+  "description": "Juego Conecta 4 hecho con webcomponents",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "Maria Paula Herrero",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "lit": "^2.6.1"
+  }
+}
