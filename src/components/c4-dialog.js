@@ -11,6 +11,9 @@ export class C4Dialog extends LitElement {
             :host {
                 display: block;
                 width: 340px;
+                margin: 0;
+                padding: 0;
+                border: 0;
             }
             p {
                 margin: 0;

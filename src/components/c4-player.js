@@ -10,10 +10,25 @@ export class C4Player extends LitElement {
             :host {
                 display: box;
                 width: 130px;
+                margin: 0;
+                padding: 0;
+                border: 0;
             }
+
+            div, h2, table, tbody, tr, td {
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+
             table {
                 border-spacing: 0;
             }
+
+            h2 {
+                font: inherit;
+            }
+
             #turn {
                 display: flex;
                 justify-content: space-between;
@@ -63,7 +78,8 @@ export class C4Player extends LitElement {
     }
 
     render() {
-        return html`<div id="turn"><h2 class="turn-text">Turno</h2>
+        return html`<div id="turn">
+            <h2 class="turn-text">Turno</h2>
             <div class="turn">
                 <table id="turn_board_player${Color.RED.getCode()}" class="turn_board">
                     <tbody><tr><td class="coin playerR-coin ${Color.RED.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"}"></td></tr></tbody>
@@ -76,7 +92,6 @@ export class C4Player extends LitElement {
     }
 
     playTurn() {
-        //console.log('playTurn Player: ' + this.getPlayerCode());
         this.player = this.game.getTurn().getActivePlayer();
         this.player.accept(this);
     }

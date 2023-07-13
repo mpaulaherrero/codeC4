@@ -5,32 +5,26 @@ export class C4Game extends LitElement {
         css`
             :host {
                 display: block;
+                margin: 0;
+                padding: 0;
+                border: 0;
             }
 
-            .header-text {
-                font-size: 1.8rem;
-                font-weight: bold;
-            }
-
-            .header-text span {
-                color:#DC143C;
-            }
-
-            .box-right {
-                margin-bottom: 10px;
-                float: left;
-                width: 140px;
+            div {
+                margin: 0;
+                padding: 0;
+                border: 0;
             }
 
             .message {
-                height: 2rem;
+                height: 2.5rem;
                 padding: 0.5rem 0;
-                width: 370px;
+                width: 357px;
                 overflow-y: hidden;
                 font-size: 0.8rem;
                 display: flex;
-                align-items: flex-start;
                 justify-content: space-between;
+                align-items: center;
             }
 
             .box-left {
@@ -44,11 +38,6 @@ export class C4Game extends LitElement {
                 .box-left {
                     float: none;
                 }
-
-                .box-right {
-                    display: block;
-                    float: none;
-                }
             }
         `
     ];
@@ -56,7 +45,6 @@ export class C4Game extends LitElement {
     static get properties() {
         return {
             game: { type: Object },
-            numPlayers: { type: Number },
         }
     }
 
@@ -82,14 +70,7 @@ export class C4Game extends LitElement {
                             .board=${this.game.getBoard()}
                             @set-cell-index=${this.setPlayerColumn}
                         ></c4-board>
-                    </div>
-                    <div class="box-right">
-                    <div id="options">
-                        <c4-players-selector
-                            numPlayers=${this.numPlayers}
-                        ></c4-players-selector>
-                    </div>
-                </div>`;
+                    </div>`;
     }
 
     setPlayerColumn(e){
@@ -105,28 +86,28 @@ export class C4Game extends LitElement {
         this.drawBoard();
         if (!this.game.isFinished()) {
             this.game.nextTurn();
-            console.log('isFinished Player: ' + this.game.getTurn().getActivePlayer().getColor().getCode());
             this.playerComponent.playTurn();
        } else {
-           //this.#writeFinish();
-           console.log('writeFinish');
+           this.#writeFinish();
        }
     }
 
-    // #writeFinish() {
-    //     if(this.game.isWinner()){
+    #writeFinish() {
+        console.log('writeFinish');
+        if(this.game.isWinner()){
+            this.dialogComponent.writeWinner("gano");
+    //         DialogView.writeWinner(`Victoria para`, winnerTable);
     //         const winnerTable = document.getElementsByClassName('turn_active')[0];
     //         winnerTable.id="winnerDisplay";
     //         winnerTable.style.width="24px";
     //         winnerTable.style.display="inline-block";
     //         winnerTable.style.marginLeft="5px";
-    //         DialogView.writeWinner(`Victoria para`, winnerTable);
     //         document.getElementById('turn').innerHTML="";
     //         this.#boardView.displayWinnerLine();
-    //     } else {
+        } else {
     //         DialogView.write(`¡Empate!`);
     //         document.getElementById('turn').innerHTML="";
-    //     }
-    // }
+        }
+    }
 }
 customElements.define('c4-game', C4Game);

@@ -9,12 +9,25 @@ import { Game } from '../models/Game.mjs'
 export class C4Main extends LitElement {
     #game
 
-    #ONE_PLAYER = 1;
+    DEFAULT_PLAYERS = 2;
 
     static styles = [
         css`
             :host {
                 display: block;
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+
+            div, h1, span {
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+
+            h1 {
+                line-height: 1;
             }
 
             #container {
@@ -22,6 +35,25 @@ export class C4Main extends LitElement {
                 left: 50%;
                 margin-top: 20px;
                 margin-left: -255px;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .header-text {
+                font-size: 1.8rem;
+                font-weight: bold;
+                width: 100%;
+            }
+
+            .header-text span {
+                color:#DC143C;
+            }
+
+            .box-right {
+                margin-bottom: 10px;
+                float: left;
+                width: 140px;
+                padding-top: 57px;
             }
 
             @media screen and (max-width: 600px) {
@@ -30,6 +62,13 @@ export class C4Main extends LitElement {
                     top: 50px;
                     left: 0;
                     padding: 0 5px;
+                    display: block;
+                }
+
+                .box-right {
+                    display: block;
+                    float: none;
+                    padding-top: 0px;
                 }
             }
         `
@@ -37,7 +76,7 @@ export class C4Main extends LitElement {
 
     constructor(){
         super();
-        this.newGame(this.#ONE_PLAYER);
+        this.newGame(this.DEFAULT_PLAYERS);
     }
 
     render() {
@@ -45,9 +84,15 @@ export class C4Main extends LitElement {
             <h1 class="header-text">Conecta <span>4</span></h1>
             <c4-game
                 .game=${this.#game}
-                numPlayers=${this.#ONE_PLAYER}
-                @set-players=${this.setPlayers}
             ></c4-game>
+            <div class="box-right">
+                <div id="options">
+                    <c4-players-selector
+                        numPlayers=${this.DEFAULT_PLAYERS}
+                        @set-players=${this.setPlayers}
+                    ></c4-players-selector>
+                </div>
+            </div>
         </div>`;
     }
 

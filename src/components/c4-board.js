@@ -6,6 +6,17 @@ export class C4Board extends LitElement {
         css`
             :host {
                 display: block;
+                margin: 0;
+                padding: 0;
+                border: 0;
+                font: inherit;
+                font-size: 100%;
+            }
+
+            table, tbody, tr, td {
+                margin: 0;
+                padding: 0;
+                border: 0;
             }
 
             #game_board{

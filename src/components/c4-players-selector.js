@@ -7,6 +7,11 @@ export class C4PlayersSelector extends LitElement {
         css`
             :host {
                 display: block;
+                margin: 0;
+                padding: 0;
+                border: 0;
+                font: inherit;
+                font-size: 100%;
             }
             p {
                 margin: 0;
