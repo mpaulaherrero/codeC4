@@ -2,6 +2,9 @@ import { LitElement, html, css } from 'lit';
 import { Color } from '../types/Color.mjs'
 
 export class C4Board extends LitElement {
+
+    GAME_BOARD_ID = "game_board";
+
     static styles = [
         css`
             :host {
@@ -140,13 +143,19 @@ export class C4Board extends LitElement {
     static get properties() {
         return {
             board: { type: Object },
-            tokens:  { type: Array },
+            eventListener:  { type: Array },
         };
-      }
+    }
+
+    constructor(){
+        super();
+        this.eventListener = this.doNothing;
+        window.addEventListener('board_add_event', () => this.addEvent());
+        window.addEventListener('board_remove_event', () => this.removeEvent());
+    }
 
     render() {
-        return html`<table  id="game_board" class="userPlayer"
-                            @click=${this.doUpdate}>
+        return html`<table  id="${this.GAME_BOARD_ID}" class="userPlayer" @click=${this.eventListener}>
             <tbody>
                 ${this.board.getTokens().map( row => html`
                     <tr>
@@ -159,6 +168,10 @@ export class C4Board extends LitElement {
         </table>`;
     }
 
+    doNothing(e){
+        console.log('diseable');
+    }
+
     doUpdate(e){
         this.dispatchEvent(new CustomEvent('set-cell-index', {
             detail: { cellIndex: e.target.cellIndex}
@@ -167,12 +180,28 @@ export class C4Board extends LitElement {
 
     draw(){
         //los tokens son un array de array y no se nota el cambio, por eso se obliga al render colocando el array vacío, buscar una mejor manera
-        this.tokens = [];
-        //eliminar la sombra y el evento para no se pueda hacer click mientras esta la AI
-        //this.shadowRoot.getElementById('game_board').classList.remove('userPlayer');
+        this.eventListener = this.doUpdate;
+    }
+
+    removeEvent(){
+        console.log("board remove event");
+        this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.remove('userPlayer');this.eventListener = this.doNothing;
+        //y el evento para no se pueda hacer click mientras esta la AI
         //this.shadowRoot.querySelector('tbody').removeEventListener('click', this.#eventListener);
     }
 
+    addEvent(){
+        console.log("board add event")
+        this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.add('userPlayer');
+        this.eventListener = this.doUpdate;
+        // this.#eventListener = (e) => {
+        //     console.log("addEvent");
+        //     document.dispatchEvent(new CustomEvent('set-cell-index', {
+        //         detail: { cellIndex: e.target.cellIndex}
+        //     }));
+        // }
+        // this.shadowRoot.getElementById(this.GAME_BOARD_ID).addEventListener('click', this.#eventListener);
+    }
 }
 
 customElements.define('c4-board', C4Board);
