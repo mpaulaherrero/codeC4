@@ -45,7 +45,7 @@ export class C4Main extends LitElement {
             <h1 class="header-text">Conecta <span>4</span></h1>
             <c4-game
                 .game=${this.#game}
-                numPlayers=${this.numPlayers}
+                numPlayers=${this.#ONE_PLAYER}
                 @set-players=${this.setPlayers}
             ></c4-game>
         </div>`;
