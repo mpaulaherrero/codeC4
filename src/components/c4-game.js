@@ -56,6 +56,7 @@ export class C4Game extends LitElement {
     static get properties() {
         return {
             game: { type: Object },
+            numPlayers: { type: Number },
         }
     }
 
@@ -70,6 +71,7 @@ export class C4Game extends LitElement {
                         <c4-dialog></c4-dialog>
                         <c4-player
                             .player=${this.game.getTurn().getActivePlayer()}
+                            numPlayers=${this.numPlayers}
                             @is-finished=${this.isFinished}
                         ></c4-player>
                     </div>

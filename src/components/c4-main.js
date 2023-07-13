@@ -9,6 +9,8 @@ import { Game } from '../models/Game.mjs'
 export class C4Main extends LitElement {
     #game
 
+    #ONE_PLAYER = 1;
+
     static styles = [
         css`
             :host {
@@ -35,8 +37,7 @@ export class C4Main extends LitElement {
 
     constructor(){
         super();
-        const initialNumPlayer = 1; //TODO
-        this.newGame(initialNumPlayer);
+        this.newGame(this.#ONE_PLAYER);
     }
 
     render() {
@@ -44,6 +45,7 @@ export class C4Main extends LitElement {
             <h1 class="header-text">Conecta <span>4</span></h1>
             <c4-game
                 .game=${this.#game}
+                numPlayers=${this.numPlayers}
                 @set-players=${this.setPlayers}
             ></c4-game>
         </div>`;

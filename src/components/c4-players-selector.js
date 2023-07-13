@@ -3,8 +3,6 @@ import { LitElement, html, css } from 'lit';
 
 export class C4PlayersSelector extends LitElement {
 
-    #ONE_PLAYER = 1;
-
     static styles = [
         css`
             :host {
@@ -24,13 +22,10 @@ export class C4PlayersSelector extends LitElement {
         `
     ];
 
-    static properties = {
+    static get properties() {
+        return {
             numPlayers: { type: Number },
-    }
-
-    constructor(){
-        super();
-        this.numPlayers = this.#ONE_PLAYER;
+        }
     }
 
     render() {
