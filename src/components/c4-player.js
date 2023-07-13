@@ -81,19 +81,22 @@ export class C4Player extends LitElement {
         return html`<div id="turn">
             <h2 class="turn-text">Turno</h2>
             <div class="turn">
-                <table id="turn_board_player${Color.RED.getCode()}" class="turn_board">
-                    <tbody><tr><td class="coin playerR-coin ${Color.RED.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"}"></td></tr></tbody>
-                </table>
-                <table id="turn_board_player${Color.YELLOW.getCode()}" class="turn_board">
-                    <tbody><tr><td class="coin playerY-coin ${Color.YELLOW.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"}"></td></tr></tbody>
-                </table>
+                ${this.getTablePlayerColor(
+                    `turn_board_player${Color.RED.getCode()}`,
+                    Color.RED.getCode()===this.getOppositeCode()?"playerR-coin turn_inactive":"playerR-coin turn_active"
+                )}
+                ${this.getTablePlayerColor(
+                    `turn_board_player${Color.YELLOW.getCode()}`,
+                    Color.YELLOW.getCode()===this.getOppositeCode()?"playerY-coin turn_inactive":"playerY-coin turn_active"
+                )}
             </div>
         </div>`;
     }
 
-    playTurn() {
-        this.player = this.game.getTurn().getActivePlayer();
-        this.player.accept(this);
+    getTablePlayerColor(id, classActive){
+        return html`<table id="${id}" class="turn_board">
+                    <tbody><tr><td class="coin ${classActive}"></td></tr></tbody>
+                </table>`
     }
 
     getPlayerCode(){
@@ -102,6 +105,15 @@ export class C4Player extends LitElement {
 
     getOppositeCode(){
         return  this.player.getColor().getOpposite().getCode();
+    }
+
+    setPlayer(){
+        this.player = this.game.getTurn().getActivePlayer();
+    }
+
+    playTurn() {
+        this.setPlayer()
+        this.player.accept(this);
     }
 
     setColumn(value){
@@ -116,10 +128,17 @@ export class C4Player extends LitElement {
                 bubbles: true, composed: true,
                 detail: { message: ``}
             }));
-            this.dispatchEvent(new CustomEvent('is-finished', {
-                bubbles: true, composed: true
-            }));
+            this.endSetColumn();
         }
+    }
+
+    endSetColumn(){
+        this.dispatchEvent(new CustomEvent('board_remove_event', {
+            bubbles: true, composed: true
+        }));
+        this.dispatchEvent(new CustomEvent('is-finished', {
+            bubbles: true, composed: true
+        }));
     }
 
     visitUserPlayer() {
@@ -127,8 +146,9 @@ export class C4Player extends LitElement {
         this.dispatchEvent(new CustomEvent('write-select-column_not_welcome', {
             bubbles: true, composed: true
         }));
-        //document.getElementById('game_board').classList.add('userPlayer');
-        //this.#boardView.addEvent(this.getBoardColumn.bind(this));
+        this.dispatchEvent(new CustomEvent('board_add_event', {
+            bubbles: true, composed: true
+        }));
     }
 
     visitMachinePlayer() {
@@ -140,16 +160,16 @@ export class C4Player extends LitElement {
     }
 
     putToken(message){
-        this.#thinking = html`<div id="loading">${message}</div>`;
-        document.getElementsByClassName('box-left')[0].append(thinking);
-        document.getElementById('loading').style.display = "block";
-        setTimeout(function() {
-            this.player.setColumn();
-            this.player.putCoordinate();
-            document.getElementById('game_board').classList.remove('userPlayer');
-            //this.#callback();
-            this.#thinking.remove();
-        }.bind(this), 100);
+        console.log("putToken message: " + message);
+        // this.#thinking = html`<div id="loading">${message}</div>`;
+        // document.getElementsByClassName('box-left')[0].append(thinking);
+        // document.getElementById('loading').style.display = "block";
+        // setTimeout(function() {
+        //     this.player.setColumn();
+        //     this.player.putCoordinate();
+        //     this.endSetColumn();
+        //     this.#thinking.remove();
+        // }.bind(this), 100);
     }
 
 }
