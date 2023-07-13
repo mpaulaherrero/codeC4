@@ -126,13 +126,20 @@ export class C4Board extends LitElement {
         `
     ];
 
-    static properties = {
-        board: { type: Object },
+    static get properties() {
+        return {
+            board:  { type: Object },
+            tokens: { type: Array },
+        };
+      }
+
+    constructor(){
+        super();
+        window.addEventListener('draw-board', () => this.draw());
     }
 
     render() {
-        console.log(this.board.getTokens().length);
-        return html`<table  id="game_board" class="userPlayer" 
+        return html`<table  id="game_board" class="userPlayer"
                             @click=${this.doUpdate}>
             <tbody>
                 ${this.board.getTokens().map( row => html`
@@ -147,8 +154,21 @@ export class C4Board extends LitElement {
     }
 
     doUpdate(e){
-        console.log(e.target.cellIndex);
+        this.dispatchEvent(new CustomEvent('set-cell-index', {
+            detail: { cellIndex: e.target.cellIndex}
+        }));
     }
+
+    draw(){
+        this.tokens = this.board.getTokens();
+        //eliminar la sombra
+        //this.shadowRoot.getElementById('game_board').classList.remove('userPlayer');
+        //eliminar el evento
+        //this.shadowRoot.querySelector('tbody').removeEventListener('click', this.#eventListener);
+        //volver a pintar
+        //this.render();
+    }
+
 }
 
 customElements.define('c4-board', C4Board);
