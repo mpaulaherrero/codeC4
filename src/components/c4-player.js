@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { Color } from '../types/Color.mjs'
 
 export class C4Player extends LitElement {
 
@@ -56,42 +57,36 @@ export class C4Player extends LitElement {
 
     static get properties() {
         return {
+            game: { type: Object },
             player: { type: Object },
         }
-    }
-
-    constructor(){
-        super();
-        window.addEventListener('set-player-column', (e) => this.setColumn(e.detail.column));
-        window.addEventListener('play-turn', () => this.playTurn());
-    }
-
-    firstUpdated(){
-        this.playTurn();
     }
 
     render() {
         return html`<div id="turn"><h2 class="turn-text">Turno</h2>
             <div class="turn">
-                <table id="turn_board_playerR" class="turn_board">
-                    <tbody><tr><td class="coin playerR-coin"></td></tr></tbody>
+                <table id="turn_board_player${Color.RED.getCode()}" class="turn_board">
+                    <tbody><tr><td class="coin playerR-coin ${Color.RED.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"}"></td></tr></tbody>
                 </table>
-                <table id="turn_board_playerY" class="turn_board">
-                    <tbody><tr><td class="coin playerY-coin"></td></tr></tbody>
+                <table id="turn_board_player${Color.YELLOW.getCode()}" class="turn_board">
+                    <tbody><tr><td class="coin playerY-coin ${Color.YELLOW.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"}"></td></tr></tbody>
                 </table>
             </div>
         </div>`;
     }
 
     playTurn() {
-        console.log('playTurn Player: ' + this.player.getColor().getCode());
-        const playerCode = this.player.getColor().getCode();
-        const oppositeCode = this.player.getColor().getOpposite().getCode();
-        this.shadowRoot.getElementById(`turn_board_player${oppositeCode}`).classList.remove('turn_active');
-        this.shadowRoot.getElementById(`turn_board_player${oppositeCode}`).classList.add('turn_inactive');
-        this.shadowRoot.getElementById(`turn_board_player${playerCode}`).classList.remove('turn_inactive');
-        this.shadowRoot.getElementById(`turn_board_player${playerCode}`).classList.add('turn_active');
+        //console.log('playTurn Player: ' + this.getPlayerCode());
+        this.player = this.game.getTurn().getActivePlayer();
         this.player.accept(this);
+    }
+
+    getPlayerCode(){
+        return  this.player.getColor().getCode();
+    }
+
+    getOppositeCode(){
+        return  this.player.getColor().getOpposite().getCode();
     }
 
     setColumn(value){
@@ -102,8 +97,6 @@ export class C4Player extends LitElement {
             }));
         } else {
             this.player.putCoordinate();
-            this.dispatchEvent(new CustomEvent('draw-board',
-                {bubbles: true, composed: true}));
             this.dispatchEvent(new CustomEvent('write-text', {
                 bubbles: true, composed: true,
                 detail: { message: ``}

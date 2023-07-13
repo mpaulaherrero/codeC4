@@ -128,15 +128,10 @@ export class C4Board extends LitElement {
 
     static get properties() {
         return {
-            board:  { type: Object },
-            tokens: { type: Array },
+            board: { type: Object },
+            tokens:  { type: Array },
         };
       }
-
-    constructor(){
-        super();
-        window.addEventListener('draw-board', () => this.draw());
-    }
 
     render() {
         return html`<table  id="game_board" class="userPlayer"
@@ -160,13 +155,11 @@ export class C4Board extends LitElement {
     }
 
     draw(){
-        this.tokens = this.board.getTokens();
-        //eliminar la sombra
+        //los tokens son un array de array y no se nota el cambio, por eso se obliga al render colocando el array vacío, buscar una mejor manera
+        this.tokens = [];
+        //eliminar la sombra y el evento para no se pueda hacer click mientras esta la AI
         //this.shadowRoot.getElementById('game_board').classList.remove('userPlayer');
-        //eliminar el evento
         //this.shadowRoot.querySelector('tbody').removeEventListener('click', this.#eventListener);
-        //volver a pintar
-        //this.render();
     }
 
 }

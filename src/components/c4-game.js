@@ -61,16 +61,19 @@ export class C4Game extends LitElement {
     }
 
     firstUpdated(){
-        document.dispatchEvent(new CustomEvent('write-welcome', {
-            bubbles: true, composed: true
-        }));
+        this.boardComponent = this.shadowRoot.querySelector('c4-board');
+        this.drawBoard();
+        this.playerComponent = this.shadowRoot.querySelector('c4-player');
+        this.playerComponent.playTurn();
+        this.dialogComponent = this.shadowRoot.querySelector('c4-dialog');
+        this.dialogComponent.writeWelcome();
     }
 
     render() {
         return html`<div class="message">
                         <c4-dialog></c4-dialog>
                         <c4-player
-                            .player=${this.game.getTurn().getActivePlayer()}
+                            .game=${this.game}
                             @is-finished=${this.isFinished}
                         ></c4-player>
                     </div>
@@ -90,20 +93,20 @@ export class C4Game extends LitElement {
     }
 
     setPlayerColumn(e){
-        document.dispatchEvent(new CustomEvent('set-player-column', {
-            bubbles: true, composed: true,
-            detail: { column: e.detail.cellIndex}
-        }));
+        this.playerComponent.setColumn(e.detail.cellIndex);
+    }
+
+    drawBoard(){
+        this.boardComponent.draw();
     }
 
     isFinished(){
         console.log('is-finished');
+        this.drawBoard();
         if (!this.game.isFinished()) {
             this.game.nextTurn();
             console.log('isFinished Player: ' + this.game.getTurn().getActivePlayer().getColor().getCode());
-            document.dispatchEvent(new CustomEvent('play-turn', {
-                bubbles: true, composed: true
-            }));
+            this.playerComponent.playTurn();
        } else {
            //this.#writeFinish();
            console.log('writeFinish');

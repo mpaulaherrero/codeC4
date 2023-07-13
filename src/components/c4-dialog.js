@@ -25,7 +25,7 @@ export class C4Dialog extends LitElement {
     constructor(){
         super();
         window.addEventListener('write-text', (e) => this.write(e.detail.message));
-        window.addEventListener('write-welcome', () => this.write(this.#welcomeText));
+        //window.addEventListener('write-welcome', () => this.write(this.#welcomeText));
         window.addEventListener('write-select-column', () => this.write(this.#selectColumnText));
         window.addEventListener('write-select-column_not_welcome', () => this.writeIfNotWelcome(this.#selectColumnText));
         window.addEventListener('write-full-column', () => this.write(this.#fullColumnText));
@@ -33,6 +33,10 @@ export class C4Dialog extends LitElement {
 
     render() {
         return html`<p>${this.text}</p>`;
+    }
+
+    writeWelcome(){
+        this.write(this.#welcomeText);
     }
 
     write(text){
