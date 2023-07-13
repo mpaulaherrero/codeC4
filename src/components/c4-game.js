@@ -52,7 +52,7 @@ export class C4Game extends LitElement {
         this.boardComponent = this.shadowRoot.querySelector('c4-board');
         this.drawBoard();
         this.playerComponent = this.shadowRoot.querySelector('c4-player');
-        this.playerComponent.playTurn();
+        this.playerComponent.setPlayer();
         this.dialogComponent = this.shadowRoot.querySelector('c4-dialog');
         this.dialogComponent.writeWelcome();
     }
