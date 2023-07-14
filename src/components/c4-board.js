@@ -156,8 +156,8 @@ export class C4Board extends LitElement {
     }
 
     render() {
-        return html`<table  id="${this.GAME_BOARD_ID}" class="userPlayer" @click=${this.eventListener}>
-            <tbody>
+        return html`<table  id="${this.GAME_BOARD_ID}" class="userPlayer">
+            <tbody @click=${this.eventListener}>
                 ${this.board.getTokens().map( row => html`
                     <tr>
                         ${row.map( token => html`
@@ -169,10 +169,6 @@ export class C4Board extends LitElement {
         </table>`;
     }
 
-    doNothing(e){
-        console.log('diseable');
-    }
-
     doClickCell(e){
         this.dispatchEvent(new CustomEvent('c4-player-set-column', {
             bubbles: true, composed: true,
@@ -182,34 +178,23 @@ export class C4Board extends LitElement {
 
     set(board){
         this.board = board;
-        //reset
         this.eventListener = this.doClickCell;
         this.shadowRoot.getElementById(this.GAME_BOARD_ID).className = "userPlayer";
     }
 
     removeEvent(){
-        console.log("board remove event");
-        this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.remove('userPlayer');this.eventListener = this.doNothing;
-        //y el evento para no se pueda hacer click mientras esta la AI
-        //this.shadowRoot.querySelector('tbody').removeEventListener('click', this.#eventListener);
+        this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.remove('userPlayer');
+        this.eventListener = null;
     }
 
     addEvent(){
-        console.log("board add event")
         this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.add('userPlayer');
         this.eventListener = this.doClickCell;
-        // this.#eventListener = (e) => {
-        //     console.log("addEvent");
-        //     document.dispatchEvent(new CustomEvent('c4-player-set-column', {
-        //         detail: { column: e.target.cellIndex}
-        //     }));
-        // }
-        // this.shadowRoot.getElementById(this.GAME_BOARD_ID).addEventListener('click', this.#eventListener);
     }
 
     displayWinnerLine(){
         this.shadowRoot.getElementById(this.GAME_BOARD_ID).className = "finished";
-        //setTimeout por una inconsistencia con ultimo token puesto
+        //setTimeout por una inconsistencia con ultimo token puesto, se muestra pero no esta en el html el estilo
         setTimeout(function() {
             const winnerLine = this.board.getWinnerLine().getCoordinates();
             const rows = this.shadowRoot.getElementById(this.GAME_BOARD_ID).rows;
