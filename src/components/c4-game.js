@@ -85,7 +85,6 @@ export class C4Game extends LitElement {
     }
 
     #writeFinish() {
-        console.log('writeFinish');
         if(this.game.isWinner()){
             this.dialogComponent.writeWinner();
             this.playerComponent.setWinner();
