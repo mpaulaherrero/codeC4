@@ -120,6 +120,12 @@ export class C4Player extends LitElement {
         this.shadowRoot.getElementById(`turn_board_player${this.getPlayerCode()}`).classList.add("hidden");
     }
 
+    reset(){
+        this.shadowRoot.querySelector("h2").classList.remove("hidden");
+        this.shadowRoot.getElementById(`turn_board_player${this.getOppositeCode()}`).classList.remove("hidden");
+        this.shadowRoot.getElementById(`turn_board_player${this.getPlayerCode()}`).classList.remove("hidden");
+    }
+
     getPlayerCode(){
         return  this.player.getColor().getCode();
     }

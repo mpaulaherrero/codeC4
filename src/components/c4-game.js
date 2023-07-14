@@ -42,10 +42,8 @@ export class C4Game extends LitElement {
         `
     ];
 
-    static get properties() {
-        return {
-            game: { type: Object },
-        }
+    static properties= {
+        game: { type: Object, reflect: true },
     }
 
     firstUpdated(){
@@ -71,6 +69,11 @@ export class C4Game extends LitElement {
                             @set-cell-index=${this.setPlayerColumn}
                         ></c4-board>
                     </div>`;
+    }
+
+    set(game){
+        this.game=game;
+        this.playerComponent.reset();
     }
 
     setPlayerColumn(e){

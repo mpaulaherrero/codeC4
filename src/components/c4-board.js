@@ -143,8 +143,8 @@ export class C4Board extends LitElement {
 
     static get properties() {
         return {
-            board: { type: Object },
-            eventListener:  { type: Array },
+            board: { type: Object, reflect: true  },
+            eventListener:  { type: Array, reflect: true  },
         };
     }
 
@@ -180,7 +180,6 @@ export class C4Board extends LitElement {
     }
 
     draw(){
-        console.log("dibujo");
         this.eventListener = this.doUpdate;
     }
 

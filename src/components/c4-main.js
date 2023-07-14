@@ -98,6 +98,7 @@ export class C4Main extends LitElement {
 
     setPlayers(e){
         this.newGame(e.detail.numPlayers);
+        this.shadowRoot.querySelector('c4-game').set(this.#game);
         document.dispatchEvent(new CustomEvent('write-select-column', {
             bubbles: true, composed: true
         }));
