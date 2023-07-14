@@ -3,6 +3,9 @@ import { Color } from '../types/Color.mjs'
 
 export class C4Player extends LitElement {
 
+    MACHINE_PLAYER_MESSAGE = "La Máquina esta pensado";
+    IA_PLAYER_MESSAGE = "La IA esta pensado"
+
     #thinking
 
     static styles = [
@@ -143,6 +146,7 @@ export class C4Player extends LitElement {
     }
 
     playTurn() {
+        console.log("playTurn");
         this.setPlayer();
         this.player.accept(this);
     }
@@ -150,6 +154,7 @@ export class C4Player extends LitElement {
     setColumn(value){
         this.player.getCoordinate().setColumn(value);
         if (!this.player.isCoordinateColumnEmpty()) {
+            console.log("columna FULL value: " + value);
             this.dispatchEvent(new CustomEvent('c4-dialog-write-full-column', {
                 bubbles: true, composed: true
             }));
@@ -172,7 +177,6 @@ export class C4Player extends LitElement {
     }
 
     visitUserPlayer() {
-        console.log('visitUserPlayer Player: ' + this.player.getColor().getCode());
         this.dispatchEvent(new CustomEvent('c4-dialog-write-select-column-if-not-welcome', {
             bubbles: true, composed: true
         }));
@@ -182,24 +186,28 @@ export class C4Player extends LitElement {
     }
 
     visitMachinePlayer() {
-        this.putToken("La Máquina esta pensado...");
+        console.log('visitMachinePlayer');
+        this.#putToken(this.MACHINE_PLAYER_MESSAGE);
     }
 
     visitMinimaxMachinePlayer() {
-        this.putToken("La IA esta pensado...");
+        console.log('visitMinimaxMachinePlayer');
+        this.#putToken(this.IA_PLAYER_MESSAGE);
     }
 
-    putToken(message){
-        console.log("putToken message: " + message);
-        // this.#thinking = html`<div id="loading">${message}</div>`;
-        // document.getElementsByClassName('box-left')[0].append(thinking);
-        // document.getElementById('loading').style.display = "block";
-        // setTimeout(function() {
-        //     this.player.setColumn();
-        //     this.player.putCoordinate();
-        //     this.endSetColumn();
-        //     this.#thinking.remove();
-        // }.bind(this), 100);
+    #putToken(message){
+        this.dispatchEvent(new CustomEvent('c4-thinking-show', {
+            bubbles: true, composed: true,
+            detail: { message }
+        }));
+        setTimeout(function() {
+            this.player.setColumn();
+            this.player.putCoordinate();
+            this.#endSetColumn();
+            this.dispatchEvent(new CustomEvent('c4-thinking-hide', {
+                bubbles: true, composed: true
+            }));
+        }.bind(this), 100);
     }
 
 }
