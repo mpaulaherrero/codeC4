@@ -5,6 +5,7 @@ export class C4Dialog extends LitElement {
     SELECT_COLUMN_TEXT = `Selecciona una columna`;
     FULL_COLUMN_TEXT = `La columna esta llena, intente con otra`;
     WINNER_TEXT = `Victoria para`;
+    TIE_TEXT = `¡Empate!`;
 
     static styles = [
         css`
@@ -43,6 +44,10 @@ export class C4Dialog extends LitElement {
         this.write(this.WELCOME_TEXT);
     }
 
+    writeTie(){
+        this.write(this.TIE_TEXT);
+    }
+
     write(text){
         this.text = text;
     }
@@ -53,8 +58,8 @@ export class C4Dialog extends LitElement {
         }
     }
 
-    writeWinner(element){
-        this.write(this.WINNER_TEXT + " " + element );
+    writeWinner(){
+        this.write(this.WINNER_TEXT);
         //const dialogElement = document.getElementById('dialog');
         //dialogElement.innerHTML=text;
         //dialogElement.append(element);

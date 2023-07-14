@@ -67,6 +67,14 @@ export class C4Player extends LitElement {
             .playerY-coin {
                 background: #DC143C;
             }
+            .hidden{
+                display: none;
+            }
+            #winnerDisplay {
+                width: 24px;
+                display: inline-block;
+                margin-left: 5px;
+            }
         `
     ];
 
@@ -81,22 +89,35 @@ export class C4Player extends LitElement {
         return html`<div id="turn">
             <h2 class="turn-text">Turno</h2>
             <div class="turn">
-                ${this.getTablePlayerColor(
+                ${this.getPlayerColor(
                     `turn_board_player${Color.RED.getCode()}`,
-                    Color.RED.getCode()===this.getOppositeCode()?"playerR-coin turn_inactive":"playerR-coin turn_active"
+                    Color.RED.getCode(),
+                    Color.RED.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"
                 )}
-                ${this.getTablePlayerColor(
+                ${this.getPlayerColor(
                     `turn_board_player${Color.YELLOW.getCode()}`,
-                    Color.YELLOW.getCode()===this.getOppositeCode()?"playerY-coin turn_inactive":"playerY-coin turn_active"
+                    Color.YELLOW.getCode(),
+                    Color.YELLOW.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"
                 )}
             </div>
         </div>`;
     }
 
-    getTablePlayerColor(id, classActive){
+    getPlayerColor(id, classColor, classActive){
         return html`<table id="${id}" class="turn_board">
-                    <tbody><tr><td class="coin ${classActive}"></td></tr></tbody>
-                </table>`
+                        <tbody><tr><td class="coin player${classColor}-coin ${classActive}"></td></tr></tbody>
+                </table>`;
+    }
+
+    setWinner(){
+        this.shadowRoot.querySelector("h2").classList.add("hidden");
+        this.shadowRoot.getElementById(`turn_board_player${this.getOppositeCode()}`).classList.add("hidden");
+    }
+
+    setTie(){
+        this.shadowRoot.querySelector("h2").classList.add("hidden");
+        this.shadowRoot.getElementById(`turn_board_player${this.getOppositeCode()}`).classList.add("hidden");
+        this.shadowRoot.getElementById(`turn_board_player${this.getPlayerCode()}`).classList.add("hidden");
     }
 
     getPlayerCode(){

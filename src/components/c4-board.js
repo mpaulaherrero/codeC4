@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { Color } from '../types/Color.mjs'
+import { Line } from '../models/Line.mjs';
 
 export class C4Board extends LitElement {
 
@@ -179,7 +180,7 @@ export class C4Board extends LitElement {
     }
 
     draw(){
-        //los tokens son un array de array y no se nota el cambio, por eso se obliga al render colocando el array vacío, buscar una mejor manera
+        console.log("dibujo");
         this.eventListener = this.doUpdate;
     }
 
@@ -201,6 +202,15 @@ export class C4Board extends LitElement {
         //     }));
         // }
         // this.shadowRoot.getElementById(this.GAME_BOARD_ID).addEventListener('click', this.#eventListener);
+    }
+
+    displayWinnerLine(){
+        //TODO: cuando llega aqui game_board no tiene la última ficha puesta
+        this.shadowRoot.getElementById(this.GAME_BOARD_ID).className = "finished";
+        const winnerLine = this.board.getWinnerLine().getCoordinates();
+        for (let i = 0; i < Line.LENGTH; i++) {
+            this.shadowRoot.getElementById(this.GAME_BOARD_ID).rows[winnerLine[i].getRow()].cells[winnerLine[i].getColumn()].classList.add("win");
+        }
     }
 }
 

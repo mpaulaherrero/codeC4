@@ -82,7 +82,6 @@ export class C4Game extends LitElement {
     }
 
     isFinished(){
-        console.log('is-finished');
         this.drawBoard();
         if (!this.game.isFinished()) {
             this.game.nextTurn();
@@ -95,18 +94,12 @@ export class C4Game extends LitElement {
     #writeFinish() {
         console.log('writeFinish');
         if(this.game.isWinner()){
-            this.dialogComponent.writeWinner("gano");
-    //         DialogView.writeWinner(`Victoria para`, winnerTable);
-    //         const winnerTable = document.getElementsByClassName('turn_active')[0];
-    //         winnerTable.id="winnerDisplay";
-    //         winnerTable.style.width="24px";
-    //         winnerTable.style.display="inline-block";
-    //         winnerTable.style.marginLeft="5px";
-    //         document.getElementById('turn').innerHTML="";
-    //         this.#boardView.displayWinnerLine();
+            this.dialogComponent.writeWinner();
+            this.playerComponent.setWinner();
+            this.boardComponent.displayWinnerLine();
         } else {
-    //         DialogView.write(`¡Empate!`);
-    //         document.getElementById('turn').innerHTML="";
+            this.dialogComponent.writeTie();
+            this.playerComponent.setTie();
         }
     }
 }
