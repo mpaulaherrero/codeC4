@@ -12,7 +12,7 @@ export class C4Thinking extends LitElement {
             }
 
             .thinking {
-                padding:0.5em 2.2em 0.5em 1em; 
+                padding:0.5em 2.2em 0.5em 1em;
                 border-radius:.3em;
                 color:#fff;
                 border:1px solid #fff;
@@ -56,7 +56,7 @@ export class C4Thinking extends LitElement {
 
     constructor(){
         super();
-        this.message = "La IA esta pensado";
+        this.message = "";
         window.addEventListener('c4-thinking-show', (e) => this.show(e.detail.message));
         window.addEventListener('c4-thinking-hide', () => this.hide());
     }
