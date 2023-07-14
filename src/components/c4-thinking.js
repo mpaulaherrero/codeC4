@@ -24,7 +24,7 @@ export class C4Thinking extends LitElement {
                 transform:translateX(-50%)  translateY(-50%);
                 font: 300 0.8em/1.2 'Roboto', sans-serif;
                 letter-spacing:1px;
-                width: 150px;
+                width: 200px;
             }
 
             .thinking:after {
