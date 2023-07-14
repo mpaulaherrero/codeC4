@@ -92,12 +92,12 @@ export class C4Player extends LitElement {
         return html`<div id="turn">
             <h2 class="turn-text">Turno</h2>
             <div class="turn">
-                ${this.getPlayerColor(
+                ${this.getPlayerColorTable(
                     `turn_board_player${Color.RED.getCode()}`,
                     Color.RED.getCode(),
                     Color.RED.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"
                 )}
-                ${this.getPlayerColor(
+                ${this.getPlayerColorTable(
                     `turn_board_player${Color.YELLOW.getCode()}`,
                     Color.YELLOW.getCode(),
                     Color.YELLOW.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"
@@ -106,7 +106,7 @@ export class C4Player extends LitElement {
         </div>`;
     }
 
-    getPlayerColor(id, classColor, classActive){
+    getPlayerColorTable(id, classColor, classActive){
         return html`<table id="${id}" class="turn_board">
                         <tbody><tr><td class="coin player${classColor}-coin ${classActive}"></td></tr></tbody>
                 </table>`;
@@ -118,8 +118,7 @@ export class C4Player extends LitElement {
     }
 
     setTie(){
-        this.shadowRoot.querySelector("h2").classList.add("hidden");
-        this.shadowRoot.getElementById(`turn_board_player${this.getOppositeCode()}`).classList.add("hidden");
+        this.setWinner();
         this.shadowRoot.getElementById(`turn_board_player${this.getPlayerCode()}`).classList.add("hidden");
     }
 
@@ -144,7 +143,7 @@ export class C4Player extends LitElement {
     }
 
     playTurn() {
-        this.setPlayer()
+        this.setPlayer();
         this.player.accept(this);
     }
 
@@ -156,15 +155,14 @@ export class C4Player extends LitElement {
             }));
         } else {
             this.player.putCoordinate();
-            this.dispatchEvent(new CustomEvent('c4-dialog-write-text', {
-                bubbles: true, composed: true,
-                detail: { message: ``}
+            this.dispatchEvent(new CustomEvent('c4-dialog-clean', {
+                bubbles: true, composed: true
             }));
-            this.endSetColumn();
+            this.#endSetColumn();
         }
     }
 
-    endSetColumn(){
+    #endSetColumn(){
         this.dispatchEvent(new CustomEvent('c4-board-remove-event', {
             bubbles: true, composed: true
         }));
@@ -175,7 +173,7 @@ export class C4Player extends LitElement {
 
     visitUserPlayer() {
         console.log('visitUserPlayer Player: ' + this.player.getColor().getCode());
-        this.dispatchEvent(new CustomEvent('c4-dialog-write-select-column_not_welcome', {
+        this.dispatchEvent(new CustomEvent('c4-dialog-write-select-column-if-not-welcome', {
             bubbles: true, composed: true
         }));
         this.dispatchEvent(new CustomEvent('c4-board-add-event', {

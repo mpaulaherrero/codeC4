@@ -30,8 +30,9 @@ export class C4Dialog extends LitElement {
     constructor(){
         super();
         window.addEventListener('c4-dialog-write-text', (e) => this.write(e.detail.message));
+        window.addEventListener('c4-dialog-clean', (e) => this.write(``));
         window.addEventListener('c4-dialog-write-select-column', () => this.write(this.SELECT_COLUMN_TEXT));
-        window.addEventListener('c4-dialog-write-select-column_not_welcome', () => this.writeIfNotWelcome(this.SELECT_COLUMN_TEXT));
+        window.addEventListener('c4-dialog-write-select-column-if-not-welcome', () => this.writeIfNotWelcome(this.SELECT_COLUMN_TEXT));
         window.addEventListener('c4-dialog-write-full-column', () => this.write(this.FULL_COLUMN_TEXT));
     }
 
