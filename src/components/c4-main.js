@@ -10,7 +10,7 @@ import { Game } from '../models/Game.mjs'
 export class C4Main extends LitElement {
     #game
 
-    DEFAULT_PLAYERS = 2;
+    DEFAULT_PLAYERS = 1;
 
     static styles = [
         css`
