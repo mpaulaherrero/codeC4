@@ -4,6 +4,7 @@ import './c4-players-selector';
 import './c4-board';
 import './c4-player';
 import './c4-game';
+import './c4-thinking';
 import { Game } from '../models/Game.mjs'
 
 export class C4Main extends LitElement {
@@ -93,6 +94,7 @@ export class C4Main extends LitElement {
                     ></c4-players-selector>
                 </div>
             </div>
+            <c4-thinking></c4-thinking>
         </div>`;
     }
 
