@@ -48,7 +48,6 @@ export class C4Game extends LitElement {
 
     firstUpdated(){
         this.boardComponent = this.shadowRoot.querySelector('c4-board');
-        this.drawBoard();
         this.playerComponent = this.shadowRoot.querySelector('c4-player');
         this.playerComponent.setPlayer();
         this.dialogComponent = this.shadowRoot.querySelector('c4-dialog');
@@ -60,32 +59,23 @@ export class C4Game extends LitElement {
                         <c4-dialog></c4-dialog>
                         <c4-player
                             .game=${this.game}
-                            @is-finished=${this.isFinished}
+                            @c4-game-is-finished=${this.isFinished}
                         ></c4-player>
                     </div>
                     <div class="box-left">
                         <c4-board
                             .board=${this.game.getBoard()}
-                            @set-cell-index=${this.setPlayerColumn}
                         ></c4-board>
                     </div>`;
     }
 
     set(game){
         this.game=game;
-        this.playerComponent.reset();
-    }
-
-    setPlayerColumn(e){
-        this.playerComponent.setColumn(e.detail.cellIndex);
-    }
-
-    drawBoard(){
-        this.boardComponent.draw();
+        this.boardComponent.set(this.game.getBoard());
+        this.playerComponent.set(this.game);
     }
 
     isFinished(){
-        this.drawBoard();
         if (!this.game.isFinished()) {
             this.game.nextTurn();
             this.playerComponent.playTurn();

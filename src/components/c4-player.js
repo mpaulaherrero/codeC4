@@ -83,6 +83,11 @@ export class C4Player extends LitElement {
         player: { type: Object },
     }
 
+    constructor(){
+        super();
+        window.addEventListener('c4-player-set-column', (e) => this.setColumn(e.detail.column));
+    }
+
     render() {
         return html`<div id="turn">
             <h2 class="turn-text">Turno</h2>
@@ -118,7 +123,9 @@ export class C4Player extends LitElement {
         this.shadowRoot.getElementById(`turn_board_player${this.getPlayerCode()}`).classList.add("hidden");
     }
 
-    reset(){
+    set(game){
+        this.game = game;
+        this.setPlayer();
         this.shadowRoot.querySelector("h2").classList.remove("hidden");
         this.shadowRoot.getElementById(`turn_board_player${this.getOppositeCode()}`).classList.remove("hidden");
         this.shadowRoot.getElementById(`turn_board_player${this.getPlayerCode()}`).classList.remove("hidden");
@@ -144,12 +151,12 @@ export class C4Player extends LitElement {
     setColumn(value){
         this.player.getCoordinate().setColumn(value);
         if (!this.player.isCoordinateColumnEmpty()) {
-            this.dispatchEvent(new CustomEvent('write-full-column', {
+            this.dispatchEvent(new CustomEvent('c4-dialog-write-full-column', {
                 bubbles: true, composed: true
             }));
         } else {
             this.player.putCoordinate();
-            this.dispatchEvent(new CustomEvent('write-text', {
+            this.dispatchEvent(new CustomEvent('c4-dialog-write-text', {
                 bubbles: true, composed: true,
                 detail: { message: ``}
             }));
@@ -158,20 +165,20 @@ export class C4Player extends LitElement {
     }
 
     endSetColumn(){
-        this.dispatchEvent(new CustomEvent('board_remove_event', {
+        this.dispatchEvent(new CustomEvent('c4-board-remove-event', {
             bubbles: true, composed: true
         }));
-        this.dispatchEvent(new CustomEvent('is-finished', {
+        this.dispatchEvent(new CustomEvent('c4-game-is-finished', {
             bubbles: true, composed: true
         }));
     }
 
     visitUserPlayer() {
         console.log('visitUserPlayer Player: ' + this.player.getColor().getCode());
-        this.dispatchEvent(new CustomEvent('write-select-column_not_welcome', {
+        this.dispatchEvent(new CustomEvent('c4-dialog-write-select-column_not_welcome', {
             bubbles: true, composed: true
         }));
-        this.dispatchEvent(new CustomEvent('board_add_event', {
+        this.dispatchEvent(new CustomEvent('c4-board-add-event', {
             bubbles: true, composed: true
         }));
     }

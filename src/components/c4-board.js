@@ -143,16 +143,16 @@ export class C4Board extends LitElement {
 
     static get properties() {
         return {
-            board: { type: Object, reflect: true  },
-            eventListener:  { type: Array, reflect: true  },
+            board: { type: Object, reflect: true },
+            eventListener:  { type: Object, reflect: true },
         };
     }
 
     constructor(){
         super();
-        this.eventListener = this.doNothing;
-        window.addEventListener('board_add_event', () => this.addEvent());
-        window.addEventListener('board_remove_event', () => this.removeEvent());
+        this.eventListener = this.doClickCell;
+        window.addEventListener('c4-board-add-event', () => this.addEvent());
+        window.addEventListener('c4-board-remove-event', () => this.removeEvent());
     }
 
     render() {
@@ -173,14 +173,18 @@ export class C4Board extends LitElement {
         console.log('diseable');
     }
 
-    doUpdate(e){
-        this.dispatchEvent(new CustomEvent('set-cell-index', {
-            detail: { cellIndex: e.target.cellIndex}
+    doClickCell(e){
+        this.dispatchEvent(new CustomEvent('c4-player-set-column', {
+            bubbles: true, composed: true,
+            detail: { column: e.target.cellIndex }
         }));
     }
 
-    draw(){
-        this.eventListener = this.doUpdate;
+    set(board){
+        this.board = board;
+        //reset
+        this.eventListener = this.doClickCell;
+        this.shadowRoot.getElementById(this.GAME_BOARD_ID).className = "userPlayer";
     }
 
     removeEvent(){
@@ -193,23 +197,26 @@ export class C4Board extends LitElement {
     addEvent(){
         console.log("board add event")
         this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.add('userPlayer');
-        this.eventListener = this.doUpdate;
+        this.eventListener = this.doClickCell;
         // this.#eventListener = (e) => {
         //     console.log("addEvent");
-        //     document.dispatchEvent(new CustomEvent('set-cell-index', {
-        //         detail: { cellIndex: e.target.cellIndex}
+        //     document.dispatchEvent(new CustomEvent('c4-player-set-column', {
+        //         detail: { column: e.target.cellIndex}
         //     }));
         // }
         // this.shadowRoot.getElementById(this.GAME_BOARD_ID).addEventListener('click', this.#eventListener);
     }
 
     displayWinnerLine(){
-        //TODO: cuando llega aqui game_board no tiene la última ficha puesta
         this.shadowRoot.getElementById(this.GAME_BOARD_ID).className = "finished";
-        const winnerLine = this.board.getWinnerLine().getCoordinates();
-        for (let i = 0; i < Line.LENGTH; i++) {
-            this.shadowRoot.getElementById(this.GAME_BOARD_ID).rows[winnerLine[i].getRow()].cells[winnerLine[i].getColumn()].classList.add("win");
-        }
+        //setTimeout por una inconsistencia con ultimo token puesto
+        setTimeout(function() {
+            const winnerLine = this.board.getWinnerLine().getCoordinates();
+            const rows = this.shadowRoot.getElementById(this.GAME_BOARD_ID).rows;
+            for (let i = 0; i < Line.LENGTH; i++) {
+                rows[winnerLine[i].getRow()].cells[winnerLine[i].getColumn()].classList.add("win");
+            }
+        }.bind(this), 10);
     }
 }
 

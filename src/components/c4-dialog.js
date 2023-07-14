@@ -29,11 +29,10 @@ export class C4Dialog extends LitElement {
 
     constructor(){
         super();
-        window.addEventListener('write-text', (e) => this.write(e.detail.message));
-        //window.addEventListener('write-welcome', () => this.write(this.#welcomeText));
-        window.addEventListener('write-select-column', () => this.write(this.SELECT_COLUMN_TEXT));
-        window.addEventListener('write-select-column_not_welcome', () => this.writeIfNotWelcome(this.SELECT_COLUMN_TEXT));
-        window.addEventListener('write-full-column', () => this.write(this.FULL_COLUMN_TEXT));
+        window.addEventListener('c4-dialog-write-text', (e) => this.write(e.detail.message));
+        window.addEventListener('c4-dialog-write-select-column', () => this.write(this.SELECT_COLUMN_TEXT));
+        window.addEventListener('c4-dialog-write-select-column_not_welcome', () => this.writeIfNotWelcome(this.SELECT_COLUMN_TEXT));
+        window.addEventListener('c4-dialog-write-full-column', () => this.write(this.FULL_COLUMN_TEXT));
     }
 
     render() {

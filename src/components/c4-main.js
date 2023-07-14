@@ -89,7 +89,7 @@ export class C4Main extends LitElement {
                 <div id="options">
                     <c4-players-selector
                         numPlayers=${this.DEFAULT_PLAYERS}
-                        @set-players=${this.setPlayers}
+                        @c4-main-set-players=${this.setPlayers}
                     ></c4-players-selector>
                 </div>
             </div>
@@ -99,7 +99,7 @@ export class C4Main extends LitElement {
     setPlayers(e){
         this.newGame(e.detail.numPlayers);
         this.shadowRoot.querySelector('c4-game').set(this.#game);
-        document.dispatchEvent(new CustomEvent('write-select-column', {
+        document.dispatchEvent(new CustomEvent('c4-dialog-write-select-column', {
             bubbles: true, composed: true
         }));
     }

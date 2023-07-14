@@ -44,7 +44,7 @@ export class C4PlayersSelector extends LitElement {
 
     setNumPlayers(){
         this.numPlayers = this.read();
-        this.dispatchEvent(new CustomEvent('set-players', {
+        this.dispatchEvent(new CustomEvent('c4-main-set-players', {
             bubbles: true, composed: true,
             detail: { numPlayers: this.numPlayers }
         }));
