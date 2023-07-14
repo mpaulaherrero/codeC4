@@ -78,11 +78,9 @@ export class C4Player extends LitElement {
         `
     ];
 
-    static get properties() {
-        return {
-            game: { type: Object },
-            player: { type: Object },
-        }
+    static properties = {
+        game: { type: Object },
+        player: { type: Object },
     }
 
     render() {
