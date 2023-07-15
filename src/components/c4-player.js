@@ -109,8 +109,10 @@ export class C4Player extends LitElement {
 
     getPlayerColorTable(id, classColor, classActive){
         return html`<table id="${id}" class="turn_board">
-                        <tbody><tr><td class="coin player${classColor}-coin ${classActive}"></td></tr></tbody>
-                </table>`;
+                        <tbody>
+                            <tr><td class="coin player${classColor}-coin ${classActive}"></td></tr>
+                        </tbody>
+                    </table>`;
     }
 
     setWinner(){
@@ -147,34 +149,18 @@ export class C4Player extends LitElement {
     setColumn(value){
         this.player.getCoordinate().setColumn(value);
         if (!this.player.isCoordinateColumnEmpty()) {
-            this.dispatchEvent(new CustomEvent('c4-dialog-write-full-column', {
-                bubbles: true, composed: true
-            }));
+            this.#dispatchCustomEvent('c4-dialog-write-full-column');
         } else {
             this.player.putCoordinate();
-            this.dispatchEvent(new CustomEvent('c4-dialog-clean', {
-                bubbles: true, composed: true
-            }));
-            this.dispatchEvent(new CustomEvent('c4-board-remove-event', {
-                bubbles: true, composed: true
-            }));
-            this.#askGameIsFinished();
+            this.#dispatchCustomEvent('c4-dialog-clean');
+            this.#dispatchCustomEvent('c4-board-remove-event');
+            this.#dispatchCustomEvent('c4-game-is-finished');
         }
     }
 
-    #askGameIsFinished(){
-        this.dispatchEvent(new CustomEvent('c4-game-is-finished', {
-            bubbles: true, composed: true
-        }));
-    }
-
     visitUserPlayer() {
-        this.dispatchEvent(new CustomEvent('c4-dialog-write-select-column-if-not-welcome', {
-            bubbles: true, composed: true
-        }));
-        this.dispatchEvent(new CustomEvent('c4-board-add-event', {
-            bubbles: true, composed: true
-        }));
+        this.#dispatchCustomEvent('c4-dialog-write-select-column-if-not-welcome');
+        this.#dispatchCustomEvent('c4-board-add-event');
     }
 
     visitMachinePlayer() {
@@ -192,15 +178,17 @@ export class C4Player extends LitElement {
         }));
         this.player.setColumn();
         setTimeout(function() {
-            this.dispatchEvent(new CustomEvent('c4-thinking-hide', {
-                bubbles: true, composed: true
-            }));
+            this.#dispatchCustomEvent('c4-thinking-hide');
             this.player.putCoordinate();
-            this.dispatchEvent(new CustomEvent('c4-board-draw', {
-                bubbles: true, composed: true
-            }));
-            this.#askGameIsFinished();
-        }.bind(this), 1000);
+            this.#dispatchCustomEvent('c4-board-draw');
+            this.#dispatchCustomEvent('c4-game-is-finished');
+        }.bind(this), 100);
+    }
+
+    #dispatchCustomEvent(name){
+        this.dispatchEvent(new CustomEvent(name, {
+            bubbles: true, composed: true
+        }));
     }
 
 }
