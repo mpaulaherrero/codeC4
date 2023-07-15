@@ -60,10 +60,6 @@ export class C4Dialog extends LitElement {
 
     writeWinner(){
         this.write(this.WINNER_TEXT);
-        //const dialogElement = document.getElementById('dialog');
-        //dialogElement.innerHTML=text;
-        //dialogElement.append(element);
-        //dialogElement.parentNode.insertBefore(element,dialogElement.nextSibling);
     }
 }
 customElements.define('c4-dialog', C4Dialog);
