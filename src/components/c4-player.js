@@ -153,14 +153,14 @@ export class C4Player extends LitElement {
         } else {
             this.player.putCoordinate();
             this.#dispatchCustomEvent('c4-dialog-clean');
-            this.#dispatchCustomEvent('c4-board-remove-event');
+            this.#dispatchCustomEvent('c4-board-not-allow-select-column');
             this.#dispatchCustomEvent('c4-game-is-finished');
         }
     }
 
     visitUserPlayer() {
         this.#dispatchCustomEvent('c4-dialog-write-select-column-if-not-welcome');
-        this.#dispatchCustomEvent('c4-board-add-event');
+        this.#dispatchCustomEvent('c4-board-allow-select-column');
     }
 
     visitMachinePlayer() {

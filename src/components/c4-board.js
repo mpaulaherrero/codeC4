@@ -142,22 +142,22 @@ export class C4Board extends LitElement {
 
     static get properties() {
         return {
-            board: { type: Object, reflect: true },
-            eventListener:  { type: Object, reflect: true },
+            board: { type: Object },
+            allowSelectColumn: {type: Boolean, reflect: true },
         };
     }
 
     constructor(){
         super();
-        this.eventListener = this.doClickCell;
-        window.addEventListener('c4-board-add-event', () => this.addEvent());
-        window.addEventListener('c4-board-remove-event', () => this.removeEvent());
+        this.allowSelectColumn=false;
+        window.addEventListener('c4-board-allow-select-column', () => this.doSelectColumn());
+        window.addEventListener('c4-board-not-allow-select-column', () => this.doNotSelectColumn());
         window.addEventListener('c4-board-draw', () => this.requestUpdate());
     }
 
     render() {
-        return html`<table  id="${this.GAME_BOARD_ID}" class="userPlayer">
-            <tbody @click=${this.eventListener}>
+        return html`<table  id="${this.GAME_BOARD_ID}" class="${this.allowSelectColumn?"userPlayer":""}">
+            <tbody @click=${this.allowSelectColumn?this.doClickCell:null}>
                 ${this.board.getTokens().map( row => html`
                     <tr>
                         ${row.map( token => html`
@@ -178,21 +178,15 @@ export class C4Board extends LitElement {
 
     set(board){
         this.board = board;
-        this.eventListener = this.doClickCell;
-        this.shadowRoot.getElementById(this.GAME_BOARD_ID).className = "userPlayer";
+        this.allowSelectColumn=false;
     }
 
-    removeEvent(){
-        this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.remove('userPlayer');
-        this.eventListener = null;
+    doNotSelectColumn(){
+        this.allowSelectColumn=false;
     }
 
-    addEvent(){
-        //la primera vez aun no se ha desplegado board y da error
-        if(this.shadowRoot.getElementById(this.GAME_BOARD_ID)!==null){
-            this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.add('userPlayer');
-        }
-        this.eventListener = this.doClickCell;
+    doSelectColumn(){
+        this.allowSelectColumn=true;
     }
 
     displayWinnerLine(){
