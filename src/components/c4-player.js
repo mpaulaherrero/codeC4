@@ -4,9 +4,7 @@ import { Color } from '../types/Color.mjs'
 export class C4Player extends LitElement {
 
     MACHINE_PLAYER_MESSAGE = "La Máquina esta pensado";
-    IA_PLAYER_MESSAGE = "La IA esta pensado"
-
-    #thinking
+    IA_PLAYER_MESSAGE = "La IA esta pensado";
 
     static styles = [
         css`
@@ -127,27 +125,22 @@ export class C4Player extends LitElement {
 
     set(game){
         this.game = game;
-        this.setPlayer();
+        this.playTurn();
         this.shadowRoot.querySelector("h2").classList.remove("hidden");
         this.shadowRoot.getElementById(`turn_board_player${this.getOppositeCode()}`).classList.remove("hidden");
         this.shadowRoot.getElementById(`turn_board_player${this.getPlayerCode()}`).classList.remove("hidden");
     }
 
     getPlayerCode(){
-        return  this.player.getColor().getCode();
+        return  this.game.getTurn().getActivePlayer().getColor().getCode();
     }
 
     getOppositeCode(){
-        return  this.player.getColor().getOpposite().getCode();
-    }
-
-    setPlayer(){
-        this.player = this.game.getTurn().getActivePlayer();
+        return  this.game.getTurn().getActivePlayer().getColor().getOpposite().getCode();
     }
 
     playTurn() {
-        console.log("playTurn");
-        this.setPlayer();
+        this.player = this.game.getTurn().getActivePlayer()
         this.player.accept(this);
     }
 
