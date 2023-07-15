@@ -200,14 +200,14 @@ export class C4Player extends LitElement {
             bubbles: true, composed: true,
             detail: { message }
         }));
+        this.player.setColumn();
         setTimeout(function() {
-            this.player.setColumn();
-            this.player.putCoordinate();
-            this.#endSetColumn();
             this.dispatchEvent(new CustomEvent('c4-thinking-hide', {
                 bubbles: true, composed: true
             }));
-        }.bind(this), 100);
+            this.player.putCoordinate();
+            this.#endSetColumn();
+        }.bind(this), 1000);
     }
 
 }

@@ -15,7 +15,7 @@ export class C4Thinking extends LitElement {
                 padding:0.5em 2.2em 0.5em 1em;
                 border-radius:.3em;
                 color:#fff;
-                border:1px solid #fff;
+                border:1px solid #DC143C;
                 background:#DC143C;
                 display:block; 
                 position:fixed; 
