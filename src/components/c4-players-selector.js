@@ -43,15 +43,11 @@ export class C4PlayersSelector extends LitElement {
     }
 
     setNumPlayers(){
-        this.numPlayers = this.read();
+        this.numPlayers = parseInt(this.shadowRoot.getElementById('num_players').value);
         this.dispatchEvent(new CustomEvent('c4-main-set-players', {
             bubbles: true, composed: true,
             detail: { numPlayers: this.numPlayers }
         }));
-    }
-
-    read(){
-        return parseInt(this.shadowRoot.getElementById('num_players').value);
     }
 }
 customElements.define('c4-players-selector', C4PlayersSelector);
