@@ -188,7 +188,9 @@ export class C4Board extends LitElement {
     }
 
     addEvent(){
-        this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.add('userPlayer');
+        if(this.shadowRoot.getElementById(this.GAME_BOARD_ID)!==null){
+            this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.add('userPlayer');
+        }
         this.eventListener = this.doClickCell;
     }
 
