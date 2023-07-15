@@ -94,7 +94,6 @@ export class C4Main extends LitElement {
                     ></c4-players-selector>
                 </div>
             </div>
-            <c4-thinking></c4-thinking>
         </div>`;
     }
 
