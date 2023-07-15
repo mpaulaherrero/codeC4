@@ -52,26 +52,28 @@ export class C4Thinking extends LitElement {
 
     static properties = {
         message: { type: String },
+        hidden: { type: Boolean, reflect: true },
     }
 
     constructor(){
         super();
         this.message = "";
+        this.hidden = true;
         window.addEventListener('c4-thinking-show', (e) => this.show(e.detail.message));
         window.addEventListener('c4-thinking-hide', () => this.hide());
     }
 
     render() {
-        return html`<div class="hidden">${this.message}</div>`;
+        return html`<div class="${this.hidden ? "hidden" : "thinking"}">${this.message}</div>`;
     }
 
     show(message){
         this.message=message;
-        this.shadowRoot.querySelector('div').className='thinking';
+        this.hidden = false;
     }
 
     hide(){
-        this.shadowRoot.querySelector('div').className='hidden';
+        this.hidden = true;
     }
 
 }
