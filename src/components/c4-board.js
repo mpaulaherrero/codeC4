@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { Color } from '../types/Color.mjs'
 import { Line } from '../models/Line.mjs';
-
 export class C4Board extends LitElement {
 
     GAME_BOARD_ID = "game_board";
@@ -153,6 +152,7 @@ export class C4Board extends LitElement {
         this.eventListener = this.doClickCell;
         window.addEventListener('c4-board-add-event', () => this.addEvent());
         window.addEventListener('c4-board-remove-event', () => this.removeEvent());
+        window.addEventListener('c4-board-draw', () => this.requestUpdate());
     }
 
     render() {
@@ -188,6 +188,7 @@ export class C4Board extends LitElement {
     }
 
     addEvent(){
+        //la primera vez aun no se ha desplegado board y da error
         if(this.shadowRoot.getElementById(this.GAME_BOARD_ID)!==null){
             this.shadowRoot.getElementById(this.GAME_BOARD_ID).classList.add('userPlayer');
         }
@@ -196,7 +197,7 @@ export class C4Board extends LitElement {
 
     displayWinnerLine(){
         this.shadowRoot.getElementById(this.GAME_BOARD_ID).className = "finished";
-        //setTimeout por una inconsistencia con ultimo token puesto, se muestra pero no esta en el html el estilo
+        //inconsistencia con ultimo token puesto, se muestra pero no esta en el html el estilo
         setTimeout(function() {
             const winnerLine = this.board.getWinnerLine().getCoordinates();
             const rows = this.shadowRoot.getElementById(this.GAME_BOARD_ID).rows;

@@ -147,7 +147,6 @@ export class C4Player extends LitElement {
     setColumn(value){
         this.player.getCoordinate().setColumn(value);
         if (!this.player.isCoordinateColumnEmpty()) {
-            console.log("columna FULL value: " + value);
             this.dispatchEvent(new CustomEvent('c4-dialog-write-full-column', {
                 bubbles: true, composed: true
             }));
@@ -156,14 +155,14 @@ export class C4Player extends LitElement {
             this.dispatchEvent(new CustomEvent('c4-dialog-clean', {
                 bubbles: true, composed: true
             }));
-            this.#endSetColumn();
+            this.dispatchEvent(new CustomEvent('c4-board-remove-event', {
+                bubbles: true, composed: true
+            }));
+            this.#askGameIsFinished();
         }
     }
 
-    #endSetColumn(){
-        this.dispatchEvent(new CustomEvent('c4-board-remove-event', {
-            bubbles: true, composed: true
-        }));
+    #askGameIsFinished(){
         this.dispatchEvent(new CustomEvent('c4-game-is-finished', {
             bubbles: true, composed: true
         }));
@@ -179,12 +178,10 @@ export class C4Player extends LitElement {
     }
 
     visitMachinePlayer() {
-        console.log('visitMachinePlayer');
         this.#putToken(this.MACHINE_PLAYER_MESSAGE);
     }
 
     visitMinimaxMachinePlayer() {
-        console.log('visitMinimaxMachinePlayer');
         this.#putToken(this.IA_PLAYER_MESSAGE);
     }
 
@@ -199,7 +196,10 @@ export class C4Player extends LitElement {
                 bubbles: true, composed: true
             }));
             this.player.putCoordinate();
-            this.#endSetColumn();
+            this.dispatchEvent(new CustomEvent('c4-board-draw', {
+                bubbles: true, composed: true
+            }));
+            this.#askGameIsFinished();
         }.bind(this), 1000);
     }
 
