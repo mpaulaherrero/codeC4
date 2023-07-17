@@ -324,25 +324,24 @@ C4Board .> C4Player : c4-player-set-column
 C4Player -> Player
 C4Player -> Game
 C4Player -> Color
+C4Player *-d-> C4Thinking
 
-C4Player .> C4Dialog : c4-dialog-write-full-column,\nc4-dialog-clean,\nc4-dialog-write-select-column-if-not-welcome
-C4Player .> C4Board : c4-board-not-allow-select-column,\nc4-board-allow-select-column,\nc4-board-draw
-C4Player .> C4Game: c4-game-is-finished
-C4Player .> C4Thinking: c4-thinking-show,\nc4-thinking-hide
+C4Player .-> C4Dialog : c4-dialog-write-full-column,\nc4-dialog-clean,\nc4-dialog-write-select-column-if-not-welcome
+C4Player .-> C4Board : c4-board-not-allow-select-column,\nc4-board-allow-select-column,\nc4-board-draw
+C4Player .-u-> C4Game : c4-game-is-finished
 
 C4Game *-> Game
-C4Game *-down-> C4Board
-C4Game *-down-> C4Player
-C4Game *-left-> C4Dialog
-C4Game *-down-> C4Thinking
+C4Game *-> C4Board
+C4Game *-> C4Player
+C4Game *-> C4Dialog
 
-C4Main *-d-> Game
-C4Main *-down-> C4Game
-C4Main *-left-> C4PlayersSelector
+C4Main *-> Game
+C4Main *-d-> C4Game
+C4Main *-> C4PlayersSelector
 
-C4Main .> C4Dialog : c4-dialog-write-select-column
+C4Main .-> C4Dialog : c4-dialog-write-select-column
 
-C4PlayersSelector .up.> C4Main: c4-main-set-players
+C4PlayersSelector .-> C4Main: c4-main-set-players
 
 indexHTML *-down-> C4Main
 
