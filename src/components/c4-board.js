@@ -140,11 +140,9 @@ export class C4Board extends LitElement {
         `
     ];
 
-    static get properties() {
-        return {
-            board: { type: Object },
-            allowSelectColumn: {type: Boolean, reflect: true },
-        };
+    static properties = {
+        board: { type: Object },
+        allowSelectColumn: {type: Boolean, reflect: true },
     }
 
     constructor(){

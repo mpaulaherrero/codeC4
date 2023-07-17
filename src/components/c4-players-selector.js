@@ -27,10 +27,8 @@ export class C4PlayersSelector extends LitElement {
         `
     ];
 
-    static get properties() {
-        return {
-            numPlayers: { type: Number },
-        }
+    static properties = {
+        numPlayers: { type: Number },
     }
 
     render() {
