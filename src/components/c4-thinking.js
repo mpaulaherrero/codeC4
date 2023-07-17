@@ -59,8 +59,6 @@ export class C4Thinking extends LitElement {
         super();
         this.message = "";
         this.hidden = true;
-        window.addEventListener('c4-thinking-show', (e) => this.show(e.detail.message));
-        window.addEventListener('c4-thinking-hide', () => this.hide());
     }
 
     render() {

@@ -104,7 +104,7 @@ export class C4Player extends LitElement {
                     Color.YELLOW.getCode()===this.getOppositeCode()?"turn_inactive":"turn_active"
                 )}
             </div>
-        </div>`;
+        </div><c4-thinking></c4-thinking>`;
     }
 
     getPlayerColorTable(id, classColor, classActive){
@@ -172,13 +172,10 @@ export class C4Player extends LitElement {
     }
 
     #putToken(message){
-        this.dispatchEvent(new CustomEvent('c4-thinking-show', {
-            bubbles: true, composed: true,
-            detail: { message }
-        }));
+        this.shadowRoot.querySelector('c4-thinking').show(message);
         this.player.setColumn();
         setTimeout(function() {
-            this.#dispatchCustomEvent('c4-thinking-hide');
+            this.shadowRoot.querySelector('c4-thinking').hide();
             this.player.putCoordinate();
             this.#dispatchCustomEvent('c4-board-draw');
             this.#dispatchCustomEvent('c4-game-is-finished');

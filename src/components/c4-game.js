@@ -66,8 +66,7 @@ export class C4Game extends LitElement {
                         <c4-board
                             .board=${this.game.getBoard()}
                         ></c4-board>
-                    </div>
-                    <c4-thinking></c4-thinking>`;
+                    </div>`;
     }
 
     set(game){
