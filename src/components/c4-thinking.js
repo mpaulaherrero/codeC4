@@ -18,7 +18,8 @@ export class C4Thinking extends LitElement {
                 border:1px solid #DC143C;
                 background:#DC143C;
                 display:block; 
-                position:fixed; 
+                position:fixed;
+                z-index: 1;
                 top:20%;
                 left:40%;
                 transform:translateX(-50%)  translateY(-50%);
