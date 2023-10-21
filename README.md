@@ -9,7 +9,7 @@ Juego de Conecta 4 hecho con webcomponets como ejercicio del master "Programaci�
 
 ## Información General
 
-Desarrollado con web components y usando los modelos que se crearon para otras versiones del codigo (classNotation con DinamicHTML).
+Desarrollado con web components y usando los modelos que se crearon para otras versiones del código (classNotation con DinamicHTML).
 
 Se puede jugar de tres formas:
 + Maquina vs IA: un jugador máquina que juega de manera random contra un jugador máquina que juega con IA (Minimax)
@@ -21,7 +21,7 @@ Diagrama de clases UML usado:
 
 ## Tecnologías
 
-+ node v18.1.0
++ node v20.1.0
 + vite v4.0.4
 + lit v2.6.1
 
