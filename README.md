@@ -11,6 +11,11 @@ Juego de Conecta 4 hecho con webcomponets como ejercicio del master "Programaci�
 
 Desarrollado con web components y usando los modelos que se crearon para otras versiones del codigo (classNotation con DinamicHTML).
 
+Se puede jugar de tres formas:
++ Maquina vs IA: un jugador máquina que juega de manera random contra un jugador máquina que juega con IA (Minimax)
++ Jugador vs IA: un jugador humano contra un jugador IA
++ Jugador vs Jugador: dos jugadores humanos  
+
 Diagrama de clases UML usado:
 ![Diagrama de Clases UML](docs/diagrams/class%20diagram/connect4_classNotation_viewsWeb_classdiagram.png)
 
@@ -22,8 +27,5 @@ Diagrama de clases UML usado:
 
 ### Ejecutar
 
-Para construir en modo desarrollo:
-> npm run build
-
-Para ver PWA funcionando
-> npm run preview
+Para ejecutar en modo desarrollo:
+> npm run dev
